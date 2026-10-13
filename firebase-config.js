@@ -1,10 +1,11 @@
-// Paste the values from Firebase console > Project settings > Your apps > SDK setup and configuration.
-// These values are not secret. Your data is protected by the Firestore rules, not by hiding this file.
+// Firebase web config. These values are not secret. Your data is protected by the database rules.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyBbNGPFJ9jk_pmRIC9Yf1eM9QY7PfeaR2A",
+  authDomain: "supervisor-tracker-3f4e5.firebaseapp.com",
+  databaseURL: "https://supervisor-tracker-3f4e5-default-rtdb.firebaseio.com",
+  projectId: "supervisor-tracker-3f4e5",
+  storageBucket: "supervisor-tracker-3f4e5.firebasestorage.app",
+  messagingSenderId: "896440098437",
+  appId: "1:896440098437:web:e3d30ed7362469e06c13ec"
 };
+ 
