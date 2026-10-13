@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oxford MSc by Research: Supervisor Outreach Tracker</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#1b2430;--mute:#5d6877;--line:#dde1e8;--accent:#1a4a90;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161c;--card:#1b212a;--ink:#e8ecf2;--mute:#9aa5b4;--line:#2d3642;--accent:#7aa7e6}}
+:root[data-theme="dark"]{--bg:#12161c;--card:#1b212a;--ink:#e8ecf2;--mute:#9aa5b4;--line:#2d3642;--accent:#7aa7e6}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0 0 2px}.sub{color:var(--mute);margin:0 0 16px;font-size:13px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tab{flex:1 1 150px;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
+.tab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.stat b{display:block;font-size:22px}.stat span{font-size:12px;color:var(--mute)}
+.legend{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-bottom:4px}
+.legend div{flex:1;font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.lnote{font-size:12px;color:var(--mute);margin-bottom:14px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+.tools input{flex:1;min-width:160px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.top{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.name{font-weight:700;font-size:16px}.role{color:var(--mute);font-size:12.5px}
+.does{margin:6px 0 0;font-size:14px}
+.ctl{display:flex;align-items:center;gap:6px}
+.pill{border:0;border-radius:999px;padding:7px 14px;color:#fff;font-weight:600;cursor:pointer;background:var(--c);min-width:132px;font-size:13px}
+.sm{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:6px 9px;cursor:pointer;font-size:13px}
+.time{font-size:12.5px;color:var(--mute);margin-top:8px}.time b{color:var(--c)}
+.warn{color:#b45309;font-weight:600}
+details{margin-top:10px}summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.grid label{font-size:12px;color:var(--mute);display:block}
+textarea{width:100%;min-height:90px;resize:vertical}
+.mem{margin-top:8px}.mem .card{margin:8px 0 0;padding:10px 12px;background:var(--bg)}.sups{font-size:12.5px;color:var(--mute);margin-top:4px}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;color:var(--mute)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-top:16px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.pill{min-width:112px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Supervisor Outreach Tracker</h1>
+<p class="sub">Oxford MSc by Research, October 2027 entry.</p>
+<div id="cloud" class="box" style="margin:0 0 14px;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="cs" class="sub" style="margin:0;flex:1;min-width:180px">Saved in this browser only.</span><button class="sm" id="cb" style="display:none"></button></div>
+<div class="tabs"><button class="tab on" data-p="eng">Engineering Science</button><button class="tab" data-p="bio">Biology</button><button class="tab" data-p="adm">Admissions contacts</button><button class="tab" data-p="engp">Eng postdocs and students</button><button class="tab" data-p="biop">Bio postdocs and students</button></div>
+<div class="stats" id="stats"></div>
+<div class="legend" id="legend"></div>
+<div class="lnote">Colour = communication progress, from red (no contact or declined) to green (agreed to supervise). Click a status button to move it forward.</div>
+<div class="tools">
+<input id="q" type="search" placeholder="Search name, group, or research">
+<select id="f"><option value="">All statuses</option></select>
+<select id="o"><option value="list">Order: my rank</option><option value="best">Order: best status first</option><option value="wait">Order: longest waiting</option></select>
+</div>
+<div class="lnote">Rank starts from fit to your background, then my priority order. Postdocs and students also appear inside their supervisor's card. Use the arrows or type a number to move someone. <button class="sm" id="rr">Reset ranking</button></div>
+<div id="list"></div>
+<details class="box"><summary>Add a person</summary>
+<div class="grid"><div><label>Name</label><input id="an" style="width:100%"></div><div><label>Title or group</label><input id="ar" style="width:100%"></div></div>
+<div style="margin-top:8px"><label style="font-size:12px;color:var(--mute)">What they do</label><textarea id="ad" style="min-height:60px"></textarea></div>
+<button class="sm" id="add" style="margin-top:8px">Add to this tab</button></details>
+<details class="box"><summary>Backup and restore</summary>
+<p class="sub">Copy this text somewhere safe. Paste it back and press Restore to load it on another device.</p>
+<textarea id="bk"></textarea>
+<div style="margin-top:8px;display:flex;gap:8px"><button class="sm" id="show">Show backup</button><button class="sm" id="rest">Restore</button></div></details>
+</div>
+<script>
+const FLOW=['none','draft','sent','followup','replied','call','agreed'];
+const ST={declined:['Declined',0],none:['Not contacted',1],draft:['Drafted',2],sent:['Sent',3],followup:['Followed up',4],replied:['Replied',5],call:['Call or meeting',6],agreed:['Agreed to supervise',7]};
+const col=k=>`hsl(${ST[k][1]/7*120} 62% 40%)`;
+const SEED=[
+["eng", "Jesus Lizana", "Energy, ZERO Institute", "Zero-carbon heating and cooling for buildings, thermal energy storage, and building simulation. Closest match to your HVAC and controls work.", "", "High", 80, []],
+["eng", "Idris Kempf", "Control Group", "Applied control for particle accelerators, advanced manufacturing, and engineering biology. Mechanical engineering background, co-supervises with Lugagne.", "", "High", 80, []],
+["eng", "Nick Hawes", "Oxford Robotics Institute", "AI and robotics. Collaborates with Biology on autonomous biodiversity monitoring at Wytham Woods. Recruiting DPhil students.", "", "High", 80, []],
+["eng", "Daniele De Martini", "Oxford Robotics Institute", "Robot perception and radar. Co-author on the Wytham monitoring robots paper.", "", "High", 80, []],
+["eng", "Paul Newman", "Oxford Robotics Institute", "Autonomous vehicles and mapping. Co-author on the Wytham monitoring robots paper.", "", "High", 80, []],
+["eng", "Reece Oosterbeek", "Solid Mechanics and Materials", "Materials for medical implants, mechanical metamaterials, and bioresorbable composites.", "", "High", 80, []],
+["eng", "Antonis Papachristodoulou", "Control Group", "Control theory with applications in systems and synthetic biology. Co-author with Biology (Poole).", "", "High", 80, []],
+["eng", "Harrison Steel", "Steel Lab", "Synthetic biology, bioelectronics, and control of engineered cells.", "", "High", 80, []],
+["eng", "Jean-Baptiste Lugagne", "Synthetic biology and microscopy", "Synthetic biology, microscopy, and control of gene circuits.", "", "High", 80, []],
+["eng", "Roger Reed", "Materials Engineering", "Superalloys, high-temperature materials, and metal additive manufacturing.", "", "High", 80, []],
+["eng", "Antoine Jerusalem", "Oxford Mechanobiology", "Biomechanics, brain injury, and mechanobiology.", "", "High", 80, []],
+["eng", "Johannes Weickenmeier", "Brain biomechanics", "Computational biomechanics of the brain.", "", "High", 80, []],
+["eng", "Amy Zavatsky", "Biomechanics", "Musculoskeletal biomechanics.", "", "High", 80, []],
+["eng", "Emma Edwards", "Offshore renewable energy", "Wave-structure interaction for wave energy and floating wind. Her profile says she wants DPhil or MSc students.", "", "Medium", 60, []],
+["eng", "Felix Hofmann", "Associate Head (Graduates)", "Materials and X-ray diffraction. Good contact for process questions, including how a 3.47 GPA is assessed.", "Admissions contact", "Medium", 55, []],
+["bio", "Rob Salguero-Gomez", "SalGo Team, Ecology", "Ecology with a Monitoring Technologies theme: robots, UAVs, and hyperspectral drones. Invites a CV and a one-page research match.", "", "High", 80, []],
+["bio", "Andrew Hector", "Plant Ecology", "Wytham RainDrop experiment. Collaborates with the Oxford Robotics Institute on robotic and multispectral monitoring.", "", "High", 80, []],
+["bio", "Adrian Thomas", "Oxford Flight Group", "Biomechanics of flight, with bio-inspired engineering.", "", "High", 80, []],
+["bio", "Steve Portugal", "Oxford Flight Group", "Bird flight aerodynamics using bio-logging sensors.", "", "High", 80, []],
+["bio", "Graham Taylor", "Head, Oxford Flight Group", "Mathematical biology of flight. Not on the department list I was given, so confirm availability.", "", "High", 80, []],
+["bio", "Beth Mortimer", "Animal Vibration Lab", "Biology, materials science, and engineering interface: vibration, sensing, and modelling.", "", "High", 80, []],
+["bio", "Cait Newport", "Animal Perception and Cognition", "Computer vision and machine learning for animal tracking and navigation.", "", "Medium-high", 70, []],
+["bio", "Tim Guilford", "OxNav", "Animal navigation with miniature bio-logging hardware. Confirm he is taking students.", "", "High", 80, []],
+["bio", "Ben Sheldon", "Edward Grey Institute", "Long-term bird studies at Wytham using remote sensing and machine learning.", "", "Medium", 60, []],
+["bio", "Mark Fricker", "Plant Sciences", "Imaging, network analysis, and modelling of plants and fungi.", "", "Medium", 60, []],
+["bio", "Philip Poole", "Rhizosphere Group", "Synthetic biology of plant-microbe symbioses. Collaborates with Papachristodoulou (control).", "", "Medium", 60, []],
+["bio", "Berta Verd", "Computational Biology", "Mathematical and computational modelling. Lab has incoming Masters students.", "", "Medium", 60, []],
+["bio", "Ricardo Rocha", "Conservation Science", "Autonomous acoustic sensors and quantitative biodiversity surveys.", "", "Medium", 60, []],
+["bio", "Geraldine Wright", "Behaviour and Biomechanics", "Bee biology. Section admissions director: ask what the section looks for.", "Admissions contact", "Low-medium", 55, []],
+["eng", "Paul Beard", "Oxford Turbine Research Facility (OTRF), Oxford Thermofluids Institute", "Leads the Oxford Turbine Research Facility group, a major test facility for turbine aerodynamics and heat transfer. MEng and DPhil from Exeter College, Oxford", "Medium fit", "Medium", 60, []],
+["eng", "Laurence Brassart", "Brassart group", "Mechanics and chemistry of degradable and biodegradable polymers for medical, agricultural, and packaging uses (UKRI Future Leaders Fellow)", "Medium fit", "Medium", 60, []],
+["eng", "Mark Cannon", "Control Group", "Model predictive control and optimisation-based control", "Medium fit", "Medium", 60, []],
+["eng", "Digby Chappell", "Oxford Robotics Institute", "Medical and soft robotics; Tutorial Fellow at St Anne's College", "Medium fit", "Medium", 60, []],
+["eng", "Vicente Grau Colomer", "IBME", "Cardiac and biomedical image analysis; co-author with Biology on fungal network extraction", "Medium fit, check capacity", "Medium", 60, []],
+["eng", "John Coull", "Oxford Thermofluids Institute", "Turbine aerodynamics and heat transfer, flow measurement, and MEMS flow sensors, in collaboration with Rolls-Royce. Advertises DPhil studentships. Hands-on experimental and sensor work", "Medium fit", "Medium", 60, []],
+["eng", "Zhanfeng Cui", "Membrane Science; Tissue Engineering", "Membranes, bioprocessing, and tissue engineering", "Medium fit", "Medium", 60, []],
+["eng", "Maurice Fallon", "Oxford Robotics Institute", "Legged robots and robot perception", "Medium fit", "Medium", 60, []],
+["eng", "Luca Furieri", "Control Group", "Control theory and learning-based control", "Medium fit", "Medium", 60, []],
+["eng", "Paul Goulart", "Control Group", "Optimisation-based control and model predictive control", "Medium fit", "Medium", 60, []],
+["eng", "Aaron Graham", "Solid Mechanics and Materials Engineering Group", "High-rate behaviour of soft materials, with a focus on full-field metrology and experimental design", "Medium fit, check capacity", "Medium", 60, []],
+["eng", "Phil Grunewald", "Energy demand", "Energy demand, flexibility, and social aspects of energy", "Medium fit", "Medium", 60, []],
+["eng", "Ioannis Havoutis", "Oxford Robotics Institute", "Legged robots and motion planning", "Medium fit, check capacity", "Medium", 60, []],
+["eng", "Manus Henry", "Advanced Instrumentation Research Group", "Flow measurement and instrumentation", "Medium fit", "Medium", 60, []],
+["eng", "Tobias Hermann", "Hypersonics research group, Oxford Thermofluids Institute", "Hypersonics and plasma wind tunnels, with the aim of making spacecraft re-entry safer. UKRI Future Leaders Fellow. Space and aerospace link", "Medium fit", "Medium", 60, []],
+["eng", "David Howey", "Battery Intelligence Lab", "Batteries, diagnostics, and modelling", "Medium fit", "Medium", 60, []],
+["eng", "Wei Huang", "Synthetic Biology and Single Cell Biotechnology", "Synthetic biology and single-cell biotechnology", "Medium fit", "Medium", 60, []],
+["eng", "John Huber", "Solid Mechanics and Materials Group", "Mechanics of active and functional materials", "Medium fit", "Medium", 60, []],
+["eng", "Maria Lissner", "Advanced Materials and Manufacturing", "Royal Academy of Engineering Research Fellow working on the mechanics of lightweight structures in extreme environments", "Medium fit", "Medium", 60, []],
+["eng", "Dong (Lilly) Liu", "Mechanical Engineering", "Deformation and fracture of advanced structural materials for nuclear fission and fusion, aerospace, and hydrogen storage. Tutorial Fellow at Trinity College", "Medium fit", "Medium", 60, []],
+["eng", "Perla Maiolino", "Soft robotics and tactile sensing", "Soft robotics and tactile sensing", "Medium fit", "Medium", 60, []],
+["eng", "Kostas Margellos", "Control Group", "Optimisation, control, and energy systems", "Medium fit", "Medium", 60, []],
+["eng", "Emilio Martinez-Paneda", "Mechanics of Materials Lab", "Computational and experimental fracture mechanics, including hydrogen embrittlement of metals (UKRI Future Leaders Fellow)", "Medium fit", "Medium", 60, []],
+["eng", "Malcolm McCulloch", "Energy and Power Group", "Electric motors, power electronics, and energy access", "Medium fit", "Medium", 60, []],
+["eng", "Thomas Morstyn", "Power Systems Architecture Lab", "Smart grids and energy markets", "Medium fit", "Medium", 60, []],
+["eng", "Nik Petrinic", "Impact and computational mechanics", "Impact engineering and computational mechanics", "Medium fit", "Medium", 60, []],
+["eng", "Ingmar Posner", "Oxford Robotics Institute", "Robotics and machine learning. Administrative role", "Medium fit, check capacity", "Medium", 60, []],
+["eng", "Christopher Proctor", "Bioelectronic Circuits and Systems", "Organic bioelectronics and neural interfaces", "Medium fit", "Medium", 60, []],
+["eng", "Jens Rittscher", "Biomedical Image Analysis", "Bioimaging and computational pathology", "Medium fit", "Medium", 60, []],
+["eng", "Steve Sheard", "Oxford Photonics group (Materials and Devices)", "Optoelectronics: integrated optics, surface-emitting lasers, optical sensors (including a water-quality sensor), optically controlled smart tags, and glass with embedded nanoparticles. Also lists microfluidics.", "Medium fit", "Medium", 60, []],
+["eng", "Jin-Chong Tan", "Multifunctional Materials and Composites Lab", "Nanoporous materials and metal-organic frameworks", "Medium fit", "Medium", 60, []],
+["eng", "Mark Thompson", "Oxford Mechanobiology", "Biomechanics and mechanobiology: hip replacement, bone healing, tendons, blood vessels, bladders, and nerves. MEng Engineering and Materials Science (Oxford)", "Medium fit", "Medium", 60, []],
+["eng", "Mauricio Villarroel", "Health monitoring", "Patient monitoring and wearable sensing", "Medium fit", "Medium", 60, []],
+["eng", "Ryan Walker", "Oxford University Formula Student", "Leads the Formula Student team. Research in automotive systems, condition monitoring, diagnostics, and prognostics. Studied automotive mechanical engineering (Leeds), PhD in aeronautical engineering", "Medium fit, check capacity", "Medium", 60, []],
+["eng", "Ed Walsh", "Fluid mechanics and heat transfer", "Thermal management and heat transfer", "Medium fit", "Medium", 60, []],
+["eng", "Aidong Yang", "Environmental and Biological Systems Engineering group", "Leads the Environmental and Biological Systems Engineering group: process systems, bioprocess, and sustainability", "Medium fit", "Medium", 60, []],
+["eng", "Zhong You", "Deployable structures", "Origami engineering, deployable structures, and medical devices", "Medium fit", "Medium", 60, []],
+["eng", "Andrew Zisserman", "Visual Geometry Group", "Computer vision; co-author with Biology (Newport) on animal tracking software", "Medium fit", "Medium", 60, []],
+["bio", "Marco Klein Heerenbrink", "Researcher, Oxford Flight Group", "Aerospace engineer by training working in the group.", "Postdoc or student", "Contact", 20, ["Graham Taylor", "Adrian Thomas", "Steve Portugal"]],
+["bio", "Theresa Burt De Perera", "Professor of Animal Behaviour", "Listed as an OxNav principal investigator. Spatial cognition. No engineering link confirmed.", "Medium fit", "Medium", 60, []],
+["bio", "Jan Ache", "Assoc. Prof of Animal Behaviour; Ache Lab", "Neuroscience of motor control in Drosophila. His former lab page lists members with biology, neuroscience, and biosciences degrees. Engineers appear only in a collaborating NeuroNex network at other institutions.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Angela McLean", "Professor of Mathematical Biology", "Mathematical modelling.", "Low-medium fit", "Low", 35, []],
+["bio", "Joseph Bull", "Assoc. Prof in Climate Change Biology", "Possible remote sensing work. Not checked.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Katrina Davis", "Assoc. Prof of Conservation Biology", "Modelling and decision science. Not checked.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Francesco Licausi", "Prof of Molecular Plant Physiology", "Runs the Licausi Lab (also called the Synoxys Lab) on plant oxygen sensing and synthetic biology. Team pages list research assistants and postdocs; degrees not stated.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Lee Sweetlove", "Professor of Plant Sciences", "Group builds computational models of plant metabolism to rationally engineer crops (metabolic and synthetic biology). He now also leads a group at EIT and holds an Emeritus Fellow role at his college. Members' degrees are not stated.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Michael Bonsall", "Professor of Mathematical Biology", "Mathematical modelling.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Moritz Kraemer", "Professor of Epidemiology and Data Science", "Data science and modelling. Postdocs and staff listed for this lab: Judge. No engineering role in any listed title.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Steve Kelly", "Professor of Plant Sciences", "Computational plant genomics. Postdocs and staff listed for this lab: Belcher. No engineering role in any listed title.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Sunetra Gupta", "Professor of Theoretical Epidemiology; Section Director of Graduate Studies.", "Theoretical modelling. Postdocs and staff listed for this lab: Elbohy, Pinotti (Evolutionary Ecology of Infectious Disease Lab). No engineering role in any listed title.", "Low-medium fit", "Low-medium", 45, []],
+["bio", "Indira Nagesh", "Oxford Flight Group (former)", "Member of Oxford Flight Group (former). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Graham Taylor", "Adrian Thomas", "Steve Portugal"]],
+["bio", "Alice Morrell", "Animal Vibration Lab (Mortimer)", "Member of Animal Vibration Lab (Mortimer). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Beth Mortimer"]],
+["bio", "Ella McKelvey", "Animal Vibration Lab (Mortimer)", "Member of Animal Vibration Lab (Mortimer). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Beth Mortimer"]],
+["bio", "Erola Fenollosa", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Man Qi", "SalGo Team / Oxford Robotics Institute", "Member of SalGo Team / Oxford Robotics Institute. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez", "Nick Hawes"]],
+["bio", "Sam Levin", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Jessie McLean", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Sruthi Moorthy", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Ollie Spacey", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Alice Rosen", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Rachael Thornley", "SalGo Team (monitoring technologies)", "Member of SalGo Team (monitoring technologies). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["bio", "Violeta Calleja-Solanas", "SalGo Team", "Member of SalGo Team. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Rob Salguero-Gomez"]],
+["eng", "Matthew Gadd", "Oxford Robotics Institute (Wytham robots)", "Member of Oxford Robotics Institute (Wytham robots). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Nick Hawes", "Paul Newman"]],
+["bio", "John Jackson", "Wytham UAV multispectral work", "Member of Wytham UAV multispectral work. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Andrew Hector"]],
+["bio", "Patrick Lewin", "Portugal Lab / Flight Group / OxNav", "Member of Portugal Lab / Flight Group / OxNav. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Steve Portugal", "Tim Guilford"]],
+["bio", "Katrina Siddiqi-Davies", "OxNav", "Member of OxNav. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Tim Guilford"]],
+["bio", "Raina Yu", "Animal Perception and Cognition (Newport)", "Member of Animal Perception and Cognition (Newport). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Cait Newport"]],
+["bio", "Jonathan Pattrick", "Bee Lab (Schmidt AI in Science Fellow)", "Member of Bee Lab (Schmidt AI in Science Fellow). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Geraldine Wright"]],
+["bio", "Andrea Estandia", "Sheldon Lab / Edward Grey Institute", "Member of Sheldon Lab / Edward Grey Institute. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Ben Sheldon"]],
+["bio", "David Lopez Idiaquez", "Sheldon Lab", "Member of Sheldon Lab. Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Ben Sheldon"]],
+["bio", "Stella Felsinger", "Bee Lab (Wright)", "Member of Bee Lab (Wright). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Geraldine Wright"]],
+["bio", "Monika Yordanova", "Bee Lab (Wright)", "Member of Bee Lab (Wright). Message to ask about the group and check their LinkedIn Education for an engineering background.", "Postdoc or student", "Contact", 20, ["Geraldine Wright"]],
+["bio", "Emily Flashman", "Molecular Plant Science (Section Director of Graduate Studies)", "Plant science. Section director for graduate admissions and progression, so a good contact for plant-related questions.", "Admissions contact", "Low", 55, []]
+].map((a,i)=>({id:'s'+i,p:a[0],name:a[1],role:a[2],does:a[3],kind:a[4]||'',fit:a[5]||'',sc:a[6]||0,sup:a[7]||[],ix:i,cat:a[4]==='Admissions contact'?'adm':a[4]==='Postdoc or student'?a[0]+'p':a[0]}));
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const save=()=>{try{localStorage.setItem('trk_state',JSON.stringify(S));localStorage.setItem('trk_custom',JSON.stringify(C));localStorage.setItem('trk_rank',JSON.stringify(R))}catch(e){}if(window.onTrkSave)window.onTrkSave()};
+let S=load('trk_state',{}),C=load('trk_custom',[]),R=load('trk_rank',{}),P='eng';
+const today=()=>new Date().toLocaleDateString('en-CA');
+const gap=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const unit=n=>n+(n===1?' day':' days');
+const get=id=>S[id]||(S[id]={s:'none',sent:'',reply:'',msg:'',notes:''});
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+function setStatus(id,k){const d=get(id);d.s=k;if(['sent','followup'].includes(k)&&!d.sent)d.sent=today();if(['replied','call','agreed','declined'].includes(k)&&!d.reply&&d.sent)d.reply=today();save();render()}
+function timing(d){const t=today();
+ if(d.s==='none'||d.s==='draft')return'Not sent yet';
+ if(!d.sent)return'Add the date you sent it';
+ if(['sent','followup'].includes(d.s)){const n=gap(d.sent,t);return `Sent ${unit(n)} ago, still waiting`+(n>=7?' (time to follow up)':'')}
+ if(!d.reply)return`Sent ${unit(gap(d.sent,t))} ago`;
+ return`Replied after ${unit(gap(d.sent,d.reply))}; ${unit(gap(d.reply,t))} since reply`}
+const FS={High:'#2e7d32','Medium-high':'#2e7d32',Medium:'#b7791f'};
+const PS={"Stella Felsinger": ["Postdoc", ""], "Monika Yordanova": ["Postdoc", ""], "Jonathan Pattrick": ["Postdoc", "Schmidt AI in Science Research Fellow."], "Raina Yu": ["Student", "Doctoral candidate (DPhil)."], "Andrea Estandia": ["Postdoc", ""], "David Lopez Idiaquez": ["Postdoc", "Postdoctoral Research Associate."], "Matthew Gadd": ["Postdoc", "Postdoctoral Research Assistant. His department page calls him a former member, so confirm he is still in Oxford."], "Marco Klein Heerenbrink": ["Postdoc", "Senior postdoc and Motion Capture Lab manager."], "Indira Nagesh": ["Postdoc", "Former postdoc in the group, so may have moved on."], "Sam Levin": ["Unconfirmed", "Has a Dr title (so likely a postdoc), but the SalGo site also lists him under previous members. Check if he is current."], "Jessie McLean": ["Unconfirmed", "The SalGo site lists her under previous members and affiliates. Check if she is current."], "Rachael Thornley": ["Unconfirmed", "Has a Dr title (so likely a postdoc), but the SalGo site also lists her under previous members. Check if she is current."], "John Jackson": ["Unconfirmed", "Has a Dr title (so likely a postdoc), but the SalGo site lists him under previous members. Check if he is current."], "Alice Morrell": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Ella McKelvey": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Erola Fenollosa": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Man Qi": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Sruthi Moorthy": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Ollie Spacey": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Alice Rosen": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Violeta Calleja-Solanas": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Patrick Lewin": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."], "Katrina Siddiqi-Davies": ["Unconfirmed", "Postdoc or student: the group page does not state the position. Check their profile or LinkedIn."]};
+SEED.forEach(x=>{const r=PS[x.name];if(r){x.rl=r[0];x.rn=r[1]}});
+const cat=x=>x.cat||x.p;
+const RC={Postdoc:'#1a4a90',Student:'#6b3fa0',Unconfirmed:'#8a94a3'};
+const OPEN=new Set();
+function ranked(p){const all=SEED.concat(C).filter(x=>cat(x)===p);
+ const def=all.slice().sort((a,b)=>(b.sc||30)-(a.sc||30)||(a.ix??1e6)-(b.ix??1e6));
+ const ids=new Set(all.map(x=>x.id));const st=(R[p]||[]).filter(i=>ids.has(i)),seen=new Set(st);
+ return st.concat(def.map(x=>x.id).filter(i=>!seen.has(i)))}
+function moveTo(id,pos){const o=ranked(P);const i=o.indexOf(id);if(i<0)return;o.splice(i,1);pos=Math.max(1,Math.min(o.length+1,pos|0||1));o.splice(pos-1,0,id);R[P]=o;save();render()}
+function build(x,nested,rk,RO){const d=get(x.id),c=el('div','card');c.style.setProperty('--c',col(d.s));
+  const top=el('div','top'),l=el('div'),n=el('div','name',(nested?'':'#'+rk(x.id)+' ')+x.name);
+  if(x.fit&&x.fit!=='Contact'&&x.kind!=='Admissions contact'){const ft=el('span','tag','Fit: '+x.fit);ft.style.color=FS[x.fit]||'';n.append(ft)}
+  if(x.rl){const rt=el('span','tag',x.rl==='Unconfirmed'?'Postdoc or student (unconfirmed)':x.rl);rt.style.color=RC[x.rl];rt.style.borderColor=RC[x.rl];n.append(rt)}
+  else if(x.kind&&!/^(Low-)?[Mm]edium fit$/.test(x.kind))n.append(el('span','tag',x.kind));
+  l.append(n,el('div','role',x.role));
+  const ct=el('div','ctl'),back=el('button','sm','‹');back.title='Step back';back.onclick=()=>{const i=FLOW.indexOf(d.s);setStatus(x.id,i>0?FLOW[i-1]:'none')};
+  const pill=el('button','pill',ST[d.s][0]);pill.title='Click to advance';pill.onclick=()=>{const i=FLOW.indexOf(d.s);setStatus(x.id,FLOW[(i+1)%FLOW.length])};
+  const dec=el('button','sm',d.s==='declined'?'Undo':'Declined');dec.onclick=()=>{if(d.s==='declined')setStatus(x.id,d.prev||'none');else{d.prev=d.s;setStatus(x.id,'declined')}};
+  if(!nested){const up=el('button','sm','▲');up.title='Move up one rank';up.onclick=()=>moveTo(x.id,rk(x.id)-1);
+  const dn=el('button','sm','▼');dn.title='Move down one rank';dn.onclick=()=>moveTo(x.id,rk(x.id)+1);
+  const mv=document.createElement('input');mv.type='number';mv.min=1;mv.max=RO.length;mv.placeholder='Go to #';mv.title='Type a rank number and press Enter';mv.style.cssText='width:76px;padding:5px 6px';mv.onkeydown=e=>{if(e.key==='Enter'&&mv.value)moveTo(x.id,+mv.value)};
+  ct.append(up,dn,mv)}
+  ct.append(back,pill,dec);top.append(l,ct);
+  const tm=el('div','time');const tx=timing(d);tm.append(el('b','',ST[d.s][0]+': '),el('span',tx.includes('follow up')?'warn':'',tx));
+  const dt=document.createElement('details');dt.append(el('summary','','What I sent, dates, and notes'));
+  const g=el('div','grid');
+  [['sent','Date sent'],['reply','Date they replied']].forEach(([k,lab])=>{const w=el('div'),lb=el('label','',lab),i=document.createElement('input');i.type='date';i.value=d[k];i.style.width='100%';i.onchange=()=>{d[k]=i.value;save();render()};w.append(lb,i);g.append(w)});
+  const m=document.createElement('textarea');m.placeholder='Paste or summarise the message you sent';m.value=d.msg;m.oninput=()=>{d.msg=m.value;save()};
+  const nt=document.createElement('textarea');nt.placeholder='Notes: their reply, next step, things to mention';nt.value=d.notes;nt.oninput=()=>{d.notes=nt.value;save()};
+  const w1=el('div'),w2=el('div');w1.append(el('label','','What I sent'),m);w2.append(el('label','','Notes and their reply'),nt);g.append(w1,w2);dt.append(g);
+  c.append(top);
+  if(x.sup&&x.sup.length&&!nested)c.append(el('div','sups','Works with: '+x.sup.join(', ')));
+  c.append(el('p','does',x.does));if(x.rn)c.append(el('div','sups',x.rn));c.append(tm,dt);
+  const kids=(x.cat==='eng'||x.cat==='bio')?SEED.concat(C).filter(y=>y.sup&&y.sup.includes(x.name)):[];
+  if(kids.length){const mm=document.createElement('details');mm.className='mem';mm.open=OPEN.has(x.id);
+   const done=kids.filter(y=>FLOW.indexOf(get(y.id).s)>=2).length;
+   mm.append(el('summary','','Postdocs and students ('+kids.length+', '+done+' contacted)'));
+   mm.ontoggle=()=>{mm.open?OPEN.add(x.id):OPEN.delete(x.id)};
+   kids.forEach(y=>mm.append(build(y,true,rk,RO)));c.append(mm)}
+  return c}
+function render(){
+ const all=SEED.concat(C).filter(x=>cat(x)===P),q=document.getElementById('q').value.toLowerCase(),f=document.getElementById('f').value,o=document.getElementById('o').value;
+ const ds=all.map(x=>get(x.id));
+ const waiting=ds.filter(d=>['sent','followup'].includes(d.s)),got=ds.filter(d=>['replied','call','agreed'].includes(d.s)),rt=ds.filter(d=>d.sent&&d.reply&&d.s!=='declined').map(d=>gap(d.sent,d.reply));
+ const stats=[[all.length,'People'],[ds.filter(d=>FLOW.indexOf(d.s)>=2||d.s==='declined').length,'Contacted'],[waiting.length,'Awaiting reply'],[got.length,'Replied'],[ds.filter(d=>d.s==='agreed').length,'Agreed'],[rt.length?(rt.reduce((a,b)=>a+b,0)/rt.length).toFixed(1):'n/a','Avg days to reply']];
+ const sb=document.getElementById('stats');sb.replaceChildren(...stats.map(s=>{const e=el('div','stat');e.append(el('b','',s[0]),el('span','',s[1]));return e}));
+ const RO=ranked(P),rk=id=>RO.indexOf(id)+1;
+ const kidMatch=x=>SEED.concat(C).some(y=>y.sup&&y.sup.includes(x.name)&&(y.name+y.role+y.does).toLowerCase().includes(q));
+ let rows=all.filter(x=>(!q||(x.name+x.role+x.does+(x.rl||'')).toLowerCase().includes(q)||kidMatch(x))&&(!f||get(x.id).s===f));
+ if(o==='list')rows.sort((a,b)=>rk(a.id)-rk(b.id));
+ if(o==='best')rows.sort((a,b)=>ST[get(b.id).s][1]-ST[get(a.id).s][1]);
+ if(o==='wait')rows.sort((a,b)=>{const w=x=>{const d=get(x.id);return['sent','followup'].includes(d.s)&&d.sent?gap(d.sent,today()):-1};return w(b)-w(a)});
+ const L=document.getElementById('list');L.replaceChildren();
+ if(!rows.length)L.append(el('p','sub','No one matches these filters.'));
+ rows.forEach(x=>L.append(build(x,false,rk,RO)))}
+document.getElementById('legend').replaceChildren(...['declined','none','draft','sent','followup','replied','call','agreed'].map(k=>{const e=el('div','',ST[k][0]);e.style.background=col(k);return e}));
+const f=document.getElementById('f');Object.keys(ST).forEach(k=>{const o=el('option','',ST[k][0]);o.value=k;f.append(o)});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{P=b.dataset.p;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t===b));render()});
+['q','f','o'].forEach(i=>document.getElementById(i).addEventListener('input',render));
+document.getElementById('add').onclick=()=>{const n=document.getElementById('an').value.trim();if(!n)return;C.push({id:'c'+Date.now(),p:P.slice(0,3)==='bio'?'bio':'eng',cat:P,name:n,role:document.getElementById('ar').value.trim(),does:document.getElementById('ad').value.trim(),kind:''});['an','ar','ad'].forEach(i=>document.getElementById(i).value='');save();render()};
+document.getElementById('rr').onclick=()=>{if(confirm('Reset this tab to the suggested ranking?')){delete R[P];save();render()}};
+document.getElementById('show').onclick=()=>{document.getElementById('bk').value=JSON.stringify({S,C,R})};
+document.getElementById('rest').onclick=()=>{try{const j=JSON.parse(document.getElementById('bk').value);S=j.S||{};C=j.C||[];R=j.R||{};save();render()}catch(e){alert('That backup text could not be read.')}};
+window.TRK={get:()=>({S,C,R}),set:j=>{S=j.S||{};C=j.C||[];R=j.R||{};try{localStorage.setItem('trk_state',JSON.stringify(S));localStorage.setItem('trk_custom',JSON.stringify(C));localStorage.setItem('trk_rank',JSON.stringify(R))}catch(e){}render()}};
+render();
+</script>
+<script type="module">
+import {firebaseConfig} from './firebase-config.js';
+const cs=document.getElementById('cs'),cb=document.getElementById('cb');
+if(!firebaseConfig||!firebaseConfig.apiKey||firebaseConfig.apiKey.startsWith('PASTE')){cs.textContent='Cloud sync is off (add your Firebase config). Progress is saved in this browser only.'}
+else{
+ const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+ const {getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+ const {getDatabase,ref:dbRef,get,set,onValue}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
+ const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+ let ref=null,unsub=null,timer=null,lastWrite=0;
+ cb.style.display='';
+ const setSignedOut=()=>{cs.textContent='Not signed in. Progress is saved in this browser only.';cb.textContent='Sign in with Google';cb.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(e=>{cs.textContent='Sign-in failed: '+e.code})};
+ setSignedOut();
+ const clean=j=>({S:j.S||{},C:j.C||[],R:j.R||{}});
+ const push=async()=>{if(!ref)return;cs.textContent='Saving to cloud...';try{lastWrite=Date.now();const d=JSON.parse(JSON.stringify(window.TRK.get()));await set(ref,{S:d.S,C:d.C,R:d.R,updated:lastWrite});cs.textContent='Saved to cloud ('+auth.currentUser.email+')'}catch(e){cs.textContent='Cloud save failed ('+(e.code||e.message)+'). Your work is still saved in this browser.'}};
+ window.onTrkSave=()=>{if(!ref)return;clearTimeout(timer);timer=setTimeout(push,800)};
+ onAuthStateChanged(auth,async u=>{
+  if(unsub){unsub();unsub=null}
+  if(!u){ref=null;setSignedOut();return}
+  ref=dbRef(db,'users/'+u.uid+'/tracker');
+  cb.textContent='Sign out';cb.onclick=()=>signOut(auth);
+  try{const s=await get(ref);if(s.exists()){const j=s.val();lastWrite=j.updated||0;window.TRK.set(clean(j));cs.textContent='Loaded from cloud ('+u.email+')'}else{await push()}}
+  catch(e){cs.textContent='Could not reach the cloud ('+(e.code||e.message)+'). Check your database rules and databaseURL.';return}
+  unsub=onValue(ref,s=>{if(!s.exists())return;const j=s.val();if(j.updated&&j.updated!==lastWrite){lastWrite=j.updated;window.TRK.set(clean(j));cs.textContent='Updated from another device ('+u.email+')'}})
+ });
+}
+</script>
+</body>
+</html>
